@@ -41,3 +41,7 @@ vim.o.termguicolors = true
 -- Default tabwidth
 vim.o.tabstop = 4
 vim.o.shiftwidth = 4
+
+-- Highlight groups:
+-- Extra-long lines
+vim.api.nvim_set_hl(0, 'ExtraLongLines', { fg = '#FFFFFF', bg = '#9E0C0F'})

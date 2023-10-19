@@ -77,7 +77,19 @@ vim.keymap.set(
   '<leader>eac',
   '<cmd>e ~/AppData/Local/nvim/lua/config/autocmds.lua<CR>'
 )
+-- eop == Edit options
+vim.keymap.set(
+  'n',
+  '<leader>eop',
+  '<cmd>e ~/AppData/Local/nvim/lua/config/options.lua<CR>'
+)
 
+-- epl == Edit plugins
+vim.keymap.set(
+  'n',
+  '<leader>epl',
+  '<cmd>e ~/AppData/Local/nvim/lua/plugins/<CR>'
+)
 
 -- Clearing all buffers but one
 vim.keymap.set(

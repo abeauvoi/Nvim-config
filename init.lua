@@ -268,10 +268,8 @@ vim.defer_fn(function()
   require('nvim-treesitter.configs').setup {
     -- Add languages to be installed here that you want installed for treesitter
     ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim' },
-  
     -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
     auto_install = false,
-  
     highlight = { enable = true },
     indent = { enable = true },
     incremental_selection = {
@@ -490,6 +488,12 @@ cmp.setup {
     { name = 'luasnip' },
   },
 }
+
+local cmp_autopairs = require 'nvim-autopairs.completion.cmp'
+cmp.event:on(
+  'confirm_done',
+  cmp_autopairs.on_confirm_done()
+)
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 --vim: ts=2 sts=2 sw=2 et

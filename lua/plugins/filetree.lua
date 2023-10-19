@@ -9,6 +9,17 @@ return {
 		'MunifTanjim/nui.nvim',
 	},
 	config = function ()
-		require('neo-tree').setup {}
+		require('neo-tree').setup {
+			filesystem = {
+				event_handlers = {
+				    {
+						event = 'file_opened',
+						handler = function ()
+						    vim.cmd('Neotree close')
+						end
+				    },
+				}
+			}
+		}
 	end,
 }
