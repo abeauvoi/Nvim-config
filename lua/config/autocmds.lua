@@ -50,23 +50,38 @@ autocmd({ 'BufEnter', 'BufRead', 'BufNewFile' }, {
   end
 })
 
-local copilot_group = augroup('Copilot', { clear = true })
-autocmd({ 'BufRead', 'BufNewFile'}, {
-  group = copilot_group,
+local cleanup_group = augroup('Cleanup', { clear = true })
+autocmd({ 'BufWritePre'}, {
+  group = cleanup_group,
   pattern = '*',
   callback = function ()
-    vim.schedule(function ()
-      local buf_path = vim.fn.expand('%:p'):gsub('/', '\\')
-      if (buf_path[0] == 'c') then
-        buf_path[0] = 'C';
-      end
+    local function strip_trailing_whitespaces()
+      local current_view = vim.fn.winsaveview()
+      vim.cmd([[keeppatterns %s/\s\+$//e]])
+      vim.fn.winrestview(current_view)
+    end
 
-      if is_in_project_path(buf_path, project_paths) then
-        vim.o.copilot_enabled = false;
-      end
-    end)
+    vim.schedule(strip_trailing_whitespaces)
   end
 })
+
+--local copilot_group = augroup('Copilot', { clear = true })
+--autocmd({ 'BufRead', 'BufNewFile'}, {
+--  group = copilot_group,
+--  pattern = '*',
+--  callback = function ()
+--    vim.schedule(function ()
+--      local buf_path = vim.fn.expand('%:p'):gsub('/', '\\')
+--      if (buf_path[0] == 'c') then
+--        buf_path[0] = 'C';
+--      end
+--
+--      if is_in_project_path(buf_path, project_paths) then
+--        vim.o.copilot_enabled = false;
+--      end
+--    end)
+--  end
+--})
 
 local colorcolumn_group = augroup('Colorcolumn', { clear = true })
 autocmd({ 'BufRead', 'BufNewFile', 'TextChanged', 'TextChangedI'}, {
@@ -77,4 +92,51 @@ autocmd({ 'BufRead', 'BufNewFile', 'TextChanged', 'TextChangedI'}, {
 
     vim.fn.matchadd('ExtraLongLines', '\\%>80v.\\+')
   end
+})
+
+local function disableSyntaxTreesitter()
+  local ts_disable_features = {
+    "autotag",
+    "highlight",
+    "incremental_selection",
+    "indent",
+    "playground",
+    "query_linter",
+    "rainbow",
+    "refactor.highlight_definitions",
+    "refactor.navigation",
+    "refactor.smart_rename",
+    "refactor.highlight_current_scope",
+    "textobjects.swap",
+    "textobjects.move",
+    "textobjects.lsp_interop",
+    "textobjects.select",
+  }
+
+  -- Check if the TSBufDisable command exists
+  if vim.fn.exists(':TSBufDisable') ~= 0 then
+    for _, feature in ipairs(ts_disable_features) do
+      vim.cmd(string.format("TSBufDisable %s", feature))
+    end
+  end
+
+  vim.opt.foldmethod = "manual"
+  vim.cmd("syntax clear")
+  vim.cmd("syntax off")
+  vim.cmd("filetype off")
+  vim.opt.undofile = false
+  vim.opt.swapfile = false
+  vim.opt.loadplugins = false
+end
+
+local big_file_disable_group = augroup('BigFileDisable', { clear = true })
+autocmd({"BufWinEnter", "BufReadPre", "FileReadPre"}, {
+  group = "BigFileDisable",
+  pattern = "*",
+  callback = function()
+    local fileSize = vim.fn.getfsize(vim.fn.expand("%"))
+    if fileSize > 512 * 1024 then
+      disableSyntaxTreesitter()
+    end
+  end,
 })

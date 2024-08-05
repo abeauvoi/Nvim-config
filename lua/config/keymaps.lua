@@ -55,40 +55,28 @@ vim.keymap.set(
   { noremap = true, silent = true }
 )
 
+-- [[ Neotree ]]
+
 -- Open & Focus on Neotree split
-vim.keymap.set('n', '<leader>nt', '<cmd>Neotree|<C-w><Left><CR>')
+vim.keymap.set(
+  'n',
+  '<leader>nt',
+  '<cmd>Neotree|<C-w><Left><CR>',
+  { desc = 'Open & Focus on Neotree split' }
+)
 
 -- Editing config files
--- emc == Edit Main Config
 vim.keymap.set(
   'n',
-  '<leader>emc',
-  '<cmd>e $MYVIMRC<CR>'
+  '<leader>vrc',
+  '<cmd>e $MYVIMRC<CR>',
+  { desc = 'Edit main config' }
 )
--- ekm == Edit KeyMaps
 vim.keymap.set(
   'n',
-  '<leader>ekm',
-  '<cmd>e ~/AppData/Local/nvim/lua/config/keymaps.lua<CR>'
-)
--- eac == Edit AutoCommands
-vim.keymap.set(
-  'n',
-  '<leader>eac',
-  '<cmd>e ~/AppData/Local/nvim/lua/config/autocmds.lua<CR>'
-)
--- eop == Edit options
-vim.keymap.set(
-  'n',
-  '<leader>eop',
-  '<cmd>e ~/AppData/Local/nvim/lua/config/options.lua<CR>'
-)
-
--- epl == Edit plugins
-vim.keymap.set(
-  'n',
-  '<leader>epl',
-  '<cmd>e ~/AppData/Local/nvim/lua/plugins/<CR>'
+  '<leader>knf',
+  '<cmd>e ~/AppData/Local/nvim/lua/config/<CR>',
+  { desc = 'Open config directory' }
 )
 
 -- Clearing all buffers but one
@@ -97,3 +85,4 @@ vim.keymap.set(
   '<leader>bx',
   '<cmd>BufOnly<CR>'
 )
+
