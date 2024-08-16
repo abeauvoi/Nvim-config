@@ -428,13 +428,20 @@ end
 
 -- document existing key chains
 require('which-key').register({
-  ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
-  ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
-  ['<leader>g'] = { name = '[G]it', _ = 'which_key_ignore' },
-  ['<leader>h'] = { name = 'More git', _ = 'which_key_ignore' },
-  ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
-  ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
-  ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
+  ['<leader>c'] = { group = '[C]ode'},
+  ['<leader>c_'] = { hidden = true },
+  ['<leader>d'] = { group = '[D]ocument'},
+  ['<leader>d_'] = { hidden = true },
+  ['<leader>g'] = { group = '[G]it'},
+  ['<leader>g_'] = { hidden = true },
+  ['<leader>h'] = { group = 'More git'},
+  ['<leader>h_'] = { hidden = true },
+  ['<leader>r'] = { group = '[R]ename'},
+  ['<leader>r_'] = { hidden = true },
+  ['<leader>s'] = { group = '[S]earch'},
+  ['<leader>s_'] = { hidden = true },
+  ['<leader>w'] = { group = '[W]orkspace'},
+  ['<leader>w_'] = { hidden = true },
 })
 
 -- Enable the following language servers
@@ -539,12 +546,6 @@ cmp.setup {
     { name = 'luasnip' },
   },
 }
-
-local cmp_autopairs = require 'nvim-autopairs.completion.cmp'
-cmp.event:on(
-  'confirm_done',
-  cmp_autopairs.on_confirm_done()
-)
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 --vim: ts=2 sts=2 sw=2 et
