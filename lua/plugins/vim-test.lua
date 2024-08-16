@@ -35,5 +35,7 @@ return {
 
         -- Customize vim-test settings if needed
         vim.g['test#strategy'] = 'neovim'  -- Run tests in a floating window or split
+
+        vim.g['test#php#phpunit#executable'] = 'php artisan test' -- Use Laravel test runner
     end
 }
